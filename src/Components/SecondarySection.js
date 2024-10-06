@@ -7,7 +7,7 @@ const SecondarySection = () => {
 
   return (
     <div className=" bg-black">
-      <div className="-mt-48 ml-4 relative z-20">
+      <div className="-mt-48 ml-4 relative z-20 bg-gradient-to-tl from-black/10">
         {movies && (
           <>
             <MovieList title="Now Playing" movies={movies.nowPlayingMovies} />
