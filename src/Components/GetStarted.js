@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { AiOutlineRight } from 'react-icons/ai'; // Import a right arrow icon
-import LoginModal from './LoginModal'; // Import the LoginModal component
+import React, { useState, useEffect, useRef } from "react";
+import { AiOutlineRight } from "react-icons/ai"; // Import a right arrow icon
+import LoginModal from "./LoginModal"; // Import the LoginModal component
+import { gsap } from "gsap"; // Import GSAP
 
 const GetStarted = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const textRef = useRef(null); // Reference for the "Welcome to FilmNINJA" text
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -11,6 +13,31 @@ const GetStarted = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const letters = textRef.current.querySelectorAll(".letter");
+
+    gsap.fromTo(
+      letters,
+      { opacity: 0, y: 50 }, // Initial state: opacity 0, translateY 50
+      {
+        opacity: 1,
+        y: 0, // Final state: opacity 1, translateY 0
+        stagger: 0.1, // Delay between each letter animation
+        duration: 0.8,
+        ease: "power3.out",
+      }
+    );
+  }, []);
+
+  // Helper function to split text into spans
+  const splitText = (text) => {
+    return text.split("").map((char, index) => (
+      <span key={index} className="letter inline-block">
+        {char === " " ? "\u00A0" : char}
+      </span>
+    ));
   };
 
   return (
@@ -27,24 +54,38 @@ const GetStarted = () => {
       {/* Top Logo Section */}
       <div className="relative z-10 flex justify-between items-center p-1 bg-black bg-opacity-50">
         <div className="text-4xl font-bold ml-4">
-          Film<span className="text-4xl text-red-600 font-extralight">NINJA</span>
+          Film
+          <span className="text-4xl text-red-600 font-extralight">NINJA</span>
         </div>
       </div>
 
       {/* Centered Content */}
-      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center mt-44">
-        <h1 className="text-5xl font-bold mb-4 text-white">
+      <div className="relative z-10 flex flex-col justify-center items-center h-28 text-center mt-52 py-7">
+        <h1
+          className="text-6xl font-bold mb-8"
+          ref={textRef}
+        >
+          {splitText("Welcome to Film")}
+          <span className="text-red-600 font-extralight">
+            {splitText("NINJA")}
+          </span>
+        </h1>
+        <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-violet-500 via-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
           Unlimited Movies, TV shows, and more.
         </h1>
-        <h2 className="text-2xl font-medium text-white ">Watch anywhere, cancel anytime.</h2>
-        <h3 className="text-base mt-2">Ready to watch? Click on Get Started.</h3>
+
+        <h2 className="text-2xl font-medium text-white">
+          Watch anywhere, cancel anytime.
+        </h2>
+        <h3 className="text-base mt-2">Ready to watch? Click on Get Started</h3>
 
         {/* Get Started Button with Right Arrow Icon */}
         <button
           onClick={handleOpenModal}
           className="mt-6 px-8 py-2 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded flex items-center"
         >
-          Get Started <AiOutlineRight className="ml-2" /> {/* Right Arrow Icon */}
+          Get Started <AiOutlineRight className="ml-2" />{" "}
+          {/* Right Arrow Icon */}
         </button>
       </div>
 
