@@ -7,20 +7,18 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { addUser } from "../Utils/userSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const dispatch = useDispatch ();
+  const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errors, setErrors] = useState({ email: "", password: "" }); // Store validation errors
   const name = useRef(null); // Reference for name input
-
   const email = useRef(null);
   const password = useRef(null);
-
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Instantiate navigate
 
   // Handle form submission
   const handleButtonClick = (e) => {
@@ -55,17 +53,15 @@ const LoginModal = ({ isOpen, onClose }) => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value, // Using the name reference here
-            photoURL: "https://example.com/jane-q-user/profile.jpg",
           })
             .then(() => {
-                const { uid, email, displayName } = auth.currentUser;
-                dispatch(addUser({ uid, email, displayName }));
-              navigate("/browse");
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(addUser({ uid, email, displayName, photoURL }));
+              navigate("/browse"); // Navigate to browse after sign-up
             })
             .catch((error) => {
               setErrors({ email: error.message });
             });
-          console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -82,8 +78,9 @@ const LoginModal = ({ isOpen, onClose }) => {
         .then((userCredential) => {
           // Signed in successfully
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse"); // Navigate to /browse after successful sign-in
+          const { uid, email, displayName, photoURL } = user;
+          dispatch(addUser({ uid, email, displayName, photoURL }));
+          navigate("/browse"); // Navigate to browse after sign-in
         })
         .catch((error) => {
           const errorCode = error.code;
