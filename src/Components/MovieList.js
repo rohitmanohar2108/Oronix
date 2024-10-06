@@ -7,8 +7,8 @@ const MovieList = ({ title, movies }) => {
       <h1 className="text-3xl py-4 text-white">{title}</h1>
 
       {/* Hide scrollbar and add overflow */}
-      <div className="flex overflow-x-auto hide-scrollbar">
-        <div className="flex space-x-4">
+      <div className="flex overflow-x-auto hide-scrollbar w-full">
+        <div className="flex">
           {movies &&
             movies.length > 0 &&
             movies.map((movie) => (

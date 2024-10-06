@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 z-20 flex justify-between items-center p-3 w-full transition-all duration-300 ${
+      className={`fixed top-0 z-50 flex justify-between items-center p-3 w-full transition-all duration-300 ${
         isScrolled ? "bg-black" : "bg-gradient-to-b from-black"
       }`}
     >

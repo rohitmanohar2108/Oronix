@@ -3,7 +3,7 @@ import { FaPlay, FaInfoCircle } from "react-icons/fa";
 
 const VideoTitle = ({ title, overview }) => {
   return (
-    <div className="w-screen h-full pt-[20%] px-24 absolute text-white bg-gradient-to-r from-black">
+    <div className="w-screen h-full pt-[20%] px-9 absolute text-white bg-gradient-to-r from-black">
       {/* Movie Title */}
       <h1 className="text-6xl font-extrabold font-cinzel font-bold-700 mb-6 bg-gradient-to-r from-blue-500 via-red-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
         {title}

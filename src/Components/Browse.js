@@ -13,7 +13,7 @@ const Browse = () => {
   useUpcomingMovies();
 
   return (
-    <div>
+    <div className="w-screen h-screen hide-scrollbar"> {/* Full screen width and height */}
       <Header />
       <MainSection />
       <SecondarySection />
