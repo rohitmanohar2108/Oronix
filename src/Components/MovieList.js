@@ -1,18 +1,31 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import arrow icons from React Icons
 import MovieCard from "./MovieCard";
+import MovieModal from "./MovieModal";
 
 const MovieList = ({ title, movies }) => {
   const scrollRef = useRef(null); // Reference to the scrollable div
   const [showLeftArrow, setShowLeftArrow] = useState(false); // State to manage left arrow visibility
   const [showRightArrow, setShowRightArrow] = useState(false); // State to manage right arrow visibility
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCardClick = (movieId) => {
+    setSelectedMovieId(movieId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedMovieId(null);
+  };
 
   const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' }); // Scroll left
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" }); // Scroll left
   };
 
   const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' }); // Scroll right
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" }); // Scroll right
   };
 
   const handleScroll = () => {
@@ -24,22 +37,25 @@ const MovieList = ({ title, movies }) => {
   useEffect(() => {
     const scrollElement = scrollRef.current;
     if (scrollElement) {
-      scrollElement.addEventListener('scroll', handleScroll);
-      return () => scrollElement.removeEventListener('scroll', handleScroll); // Cleanup on unmount
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => scrollElement.removeEventListener("scroll", handleScroll); // Cleanup on unmount
     }
   }, []);
 
   return (
-    <div 
+    <div
       className="px-6 relative "
       onMouseEnter={() => {
         setShowLeftArrow(scrollRef.current.scrollLeft > 0); // Update left arrow visibility
-        setShowRightArrow(scrollRef.current.scrollLeft < scrollRef.current.scrollWidth - scrollRef.current.clientWidth); // Update right arrow visibility
-      }} 
+        setShowRightArrow(
+          scrollRef.current.scrollLeft <
+            scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+        ); // Update right arrow visibility
+      }}
       onMouseLeave={() => {
         setShowLeftArrow(false); // Hide left arrow on mouse leave
         setShowRightArrow(false); // Hide right arrow on mouse leave
-      }} 
+      }}
     >
       <h1 className="text-3xl py-4 text-white">{title}</h1>
 
@@ -53,14 +69,24 @@ const MovieList = ({ title, movies }) => {
         </button>
       )}
 
-      <div className="flex overflow-x-hidden hide-scrollbar w-full" ref={scrollRef}>
+      <div
+        className="flex overflow-x-hidden hide-scrollbar w-full"
+        ref={scrollRef}
+      >
         <div className="flex space-x-3">
           {movies &&
             movies.length > 0 &&
             movies.map((movie) => (
-              <MovieCard key={movie.id} posterPath={movie.poster_path} />
+              <MovieCard
+                key={movie.id}
+                posterPath={movie.poster_path}
+                onClick={() => handleCardClick(movie.id)}
+              />
             ))}
         </div>
+        {isModalOpen && (
+        <MovieModal movieId={selectedMovieId} onClose={closeModal} />
+      )}
       </div>
 
       {/* Right Scroll Button */}
