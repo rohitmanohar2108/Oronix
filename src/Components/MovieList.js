@@ -20,12 +20,15 @@ const MovieList = ({ title, movies }) => {
     setSelectedMovieId(null);
   };
 
+  // Increase the scroll distance for faster scrolling
+  const scrollAmount = 700; // Adjust this value for scroll speed
+
   const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" }); // Scroll left
+    scrollRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" }); // Scroll left
   };
 
   const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" }); // Scroll right
+    scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" }); // Scroll right
   };
 
   const handleScroll = () => {
@@ -44,7 +47,7 @@ const MovieList = ({ title, movies }) => {
 
   return (
     <div
-      className="px-6 relative "
+      className="px-6 relative"
       onMouseEnter={() => {
         setShowLeftArrow(scrollRef.current.scrollLeft > 0); // Update left arrow visibility
         setShowRightArrow(
@@ -85,8 +88,8 @@ const MovieList = ({ title, movies }) => {
             ))}
         </div>
         {isModalOpen && (
-        <MovieModal movieId={selectedMovieId} onClose={closeModal} />
-      )}
+          <MovieModal movieId={selectedMovieId} onClose={closeModal} />
+        )}
       </div>
 
       {/* Right Scroll Button */}

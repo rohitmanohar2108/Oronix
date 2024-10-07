@@ -94,7 +94,7 @@ const Header = () => {
 
         {/* Sign Out Text (Below the button) */}
         {showSignOutText && (
-          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 border border-orange-600 bg-red-700 text-white text-xs font-medium py-1 px-3 rounded-sm shadow-lg transition-opacity duration-300">
+          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 border border-zinc-600 bg-zinc-800 text-white text-xs font-medium py-1 px-3 rounded-full shadow-lg transition-opacity duration-300">
             <div className="relative">
               <div className="absolute top-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-b-6 border-l-transparent border-r-transparent border-b-red-700"></div>
               SignOut

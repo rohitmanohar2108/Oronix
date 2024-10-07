@@ -5,6 +5,13 @@ const moviesSlice = createSlice({
   initialState: {
     nowPlayingMovies: null, // Use a key that matches what you intend to access
     trailerVideo: null,
+    popularMovies: null,
+    topRatedMovies: null,
+    upcomingMovies: null,
+    airingTodayTvSeries: null,
+    popularTvSeries: null,
+    onTheAir: null,
+    topRatedTvSeries: null,
   },
   reducers: {
     addNowPlayingMovies: (state, action) => {
@@ -22,6 +29,18 @@ const moviesSlice = createSlice({
     addTrailerVideo: (state, action) => {
       state.trailerVideo = action.payload;
     },
+    addAiringTodayTvSeries: (state, action) => {
+      state.airingTodayTvSeries = action.payload;
+    },
+    addPopularTvSeries: (state, action) => {
+      state.popularTvSeries = action.payload;
+    },
+    addOnTheAir: (state, action) => {
+      state.onTheAir = action.payload;
+    },
+    addTopRatedTvSeries: (state, action) => {
+      state.topRatedTvSeries = action.payload;
+    },
   },
 });
 
@@ -31,6 +50,10 @@ export const {
   addPopularMovies,
   addTopRatedMovies,
   addUpcomingMovies,
+  addAiringTodayTvSeries,
+  addPopularTvSeries,
+  addOnTheAir,
+  addTopRatedTvSeries,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer;
