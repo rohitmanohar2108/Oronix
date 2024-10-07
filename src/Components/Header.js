@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MdLogout } from "react-icons/md"; // Import the logout icon
+import { MdLogout, MdFavorite } from "react-icons/md"; // Import the logout icon
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../Utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,10 @@ const Header = () => {
       .catch((error) => {
         navigate("/error");
       });
+  };
+
+  const navigateToWishList = () => {
+    navigate("/mywishlist"); // Navigate to My Wish List
   };
 
   const handleMouseEnter = () => {
@@ -77,9 +81,18 @@ const Header = () => {
 
       {/* Spacer to push the Sign Out Button to the right */}
       <div className="flex-grow" />
+      <button
+        onClick={navigateToWishList}
+        className="text-white px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-full"
+      >
+        <MdFavorite className="inline-block mr-2 text-xl" />
+        My Wish List
+      </button>
+
 
       {/* Sign Out Section with Profile Picture */}
       <div className="relative flex items-center mr-4">
+
         {/* Sign Out Button */}
         <button
           onClick={handleSignOut}
@@ -94,7 +107,7 @@ const Header = () => {
 
         {/* Sign Out Text (Below the button) */}
         {showSignOutText && (
-          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 border border-zinc-600 bg-zinc-800 text-white text-xs font-medium py-1 px-3 rounded-full shadow-lg transition-opacity duration-300">
+          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 border border-zinc-600 bg-zinc-800 text-white text-xs font-medium py-1 px-2 rounded-full shadow-lg transition-opacity duration-300">
             <div className="relative">
               <div className="absolute top-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-b-6 border-l-transparent border-r-transparent border-b-red-700"></div>
               SignOut

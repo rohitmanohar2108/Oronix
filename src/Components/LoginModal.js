@@ -15,6 +15,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errors, setErrors] = useState({ email: "", password: "" }); // Store validation errors
+  const [loading, setLoading] = useState(false); // Loading state
   const name = useRef(null); // Reference for name input
   const email = useRef(null);
   const password = useRef(null);
@@ -26,6 +27,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
     // Reset errors before validation
     setErrors({ email: "", password: "" });
+    setLoading(true); // Set loading to true
 
     const message = checkValidData(email.current.value, password.current.value);
 
@@ -37,6 +39,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       if (message.includes("Password")) {
         setErrors((prevErrors) => ({ ...prevErrors, password: message }));
       }
+      setLoading(false); // Reset loading on error
       return; // Stop if there's an error
     }
 
@@ -58,15 +61,18 @@ const LoginModal = ({ isOpen, onClose }) => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(addUser({ uid, email, displayName, photoURL }));
               navigate("/browse"); // Navigate to browse after sign-up
+              setLoading(false); // Reset loading
             })
             .catch((error) => {
               setErrors({ email: error.message });
+              setLoading(false); // Reset loading on error
             });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrors({ email: errorCode + " - " + errorMessage });
+          setLoading(false); // Reset loading on error
         });
     } else {
       // Sign In logic
@@ -81,11 +87,13 @@ const LoginModal = ({ isOpen, onClose }) => {
           const { uid, email, displayName, photoURL } = user;
           dispatch(addUser({ uid, email, displayName, photoURL }));
           navigate("/browse"); // Navigate to browse after sign-in
+          setLoading(false); // Reset loading
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrors({ email: errorCode + " - " + errorMessage });
+          setLoading(false); // Reset loading on error
         });
     }
   };
@@ -173,8 +181,11 @@ const LoginModal = ({ isOpen, onClose }) => {
           <button
             type="submit"
             className="w-full text-lg bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-lg font-bold transition-colors duration-300 flex items-center justify-center"
+            disabled={loading} // Disable button while loading
           >
-            {isSignInForm ? (
+            {loading ? (
+              <div className="loader"></div> // Show loader while loading
+            ) : isSignInForm ? (
               <>
                 <MdLogin className="mr-2 text-2xl" /> Sign In
               </>
@@ -204,6 +215,23 @@ const LoginModal = ({ isOpen, onClose }) => {
           Close
         </button>
       </div>
+
+      {/* Loader CSS */}
+      <style jsx>{`
+        .loader {
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          border-top: 4px solid red;
+          width: 24px;
+          height: 24px;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+           0% { transform: rotate(0deg); }
+           100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };
